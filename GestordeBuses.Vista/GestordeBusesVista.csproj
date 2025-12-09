@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F4706DA0-EE1F-45BB-9E4E-ABF28DFAA449}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>GestordeBuses.Vista</RootNamespace>
+    <AssemblyName>GestordeBuses.Vista</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Bunifu_UI_v1.52">
+      <HintPath>..\..\..\Downloads\pp\Bunifu_UI_v1.52\Bunifu_UI_v1.52.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GAsignaciones.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GAsignaciones.Designer.cs">
+      <DependentUpon>GAsignaciones.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GBus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GBus.Designer.cs">
+      <DependentUpon>GBus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GRutas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GRutas.Designer.cs">
+      <DependentUpon>GRutas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUsers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUsers.Designer.cs">
+      <DependentUpon>GUsers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pantallaPrincipal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pantallaPrincipal.Designer.cs">
+      <DependentUpon>pantallaPrincipal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Pantalla de inicio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pantalla de inicio.Designer.cs">
+      <DependentUpon>Pantalla de inicio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login.Designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="GAsignaciones.resx">
+      <DependentUpon>GAsignaciones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GBus.resx">
+      <DependentUpon>GBus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GRutas.resx">
+      <DependentUpon>GRutas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUsers.resx">
+      <DependentUpon>GUsers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pantalla de inicio.resx">
+      <DependentUpon>Pantalla de inicio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pantallaPrincipal.resx">
+      <DependentUpon>pantallaPrincipal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\imagen_2025-08-16_211336799-removebg-preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\imagen_2025-08-16_215629172-removebg-preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\51 sin título_20250816221045.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\prueb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\prueba2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-close-60.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fondo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Captura de pantalla 2025-08-17 165357.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-bus-100.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\53 sin título_20250817234809.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-user-90.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-lock-60.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture51.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture111.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture121.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture13.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture14.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture15.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture18.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture181.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-user-901.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-bus-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-itinerary-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-network-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture21.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture22.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-color-palette-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-map-pinpoint-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-map-pinpoint-64 %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture23.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture25.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-users-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-user-64 %282%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GestiondeBuses.Plantilla\GestiondeBusesPlantilla.csproj">
+      <Project>{23fe5bef-a9d0-464b-ad71-8040e42a7ec4}</Project>
+      <Name>GestiondeBusesPlantilla</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GestordeBuses.Datos\GestordeBusesDatos.csproj">
+      <Project>{ca8bb003-78cb-4143-b359-511459719798}</Project>
+      <Name>GestordeBusesDatos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GestordeBuses.Negocio\GestordeBusesNegocio.csproj">
+      <Project>{ec8e763f-402c-484d-84c1-b65b4a99a624}</Project>
+      <Name>GestordeBusesNegocio</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-close-60 %281%29.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
