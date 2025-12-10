@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestordeBusesDatos", "..\Ge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestiondeBusesPlantilla", "..\GestiondeBuses.Plantilla\GestiondeBusesPlantilla.csproj", "{23FE5BEF-A9D0-464B-AD71-8040E42A7EC4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestordeBuses.Tests", "..\GestordeBuses.Tests\GestordeBuses.Tests.csproj", "{CDA5900F-A3D1-455D-BBE2-F3D6929A121B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{23FE5BEF-A9D0-464B-AD71-8040E42A7EC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23FE5BEF-A9D0-464B-AD71-8040E42A7EC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23FE5BEF-A9D0-464B-AD71-8040E42A7EC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDA5900F-A3D1-455D-BBE2-F3D6929A121B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDA5900F-A3D1-455D-BBE2-F3D6929A121B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDA5900F-A3D1-455D-BBE2-F3D6929A121B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDA5900F-A3D1-455D-BBE2-F3D6929A121B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,445 @@
+En caso de ser necesario
+
+create database GestorAutobuses;
+--use it
+use GestordeBuses;
+
+ALTER DATABASE GestorAutobuses 
+MODIFY NAME = GestordeBuses;
+
+--Para ver los users
+/*USE GestordeBuses;
+GO
+SELECT * FROM Usuarios;
+--Para ver las tabals
+USE GestordeBuses;
+GO
+SELECT name 
+FROM sys.tables;
+*/
+
+--Creacion de tablas
+
+-- Usuarios
+
+create table Usuarios (
+    IdUsuario INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre NVARCHAR(50) NOT NULL,
+    Apellido NVARCHAR(50) NOT NULL,
+    Usuario NVARCHAR(50) NOT NULL UNIQUE,
+    Contrasena NVARCHAR(255) NOT NULL,
+    Rol NVARCHAR(20) NOT NULL CHECK (Rol IN ('Admin', 'Usuario')),
+    Estado NVARCHAR(20) NOT NULL CHECK (Estado IN ('Activo', 'Inactivo'))
+);
+
+-- Choferes
+
+create table Choferes (
+    IdChofer INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre NVARCHAR(50) NOT NULL,
+    Apellido NVARCHAR(50) NOT NULL,
+    Cedula NVARCHAR(20) NOT NULL UNIQUE,
+    Telefono NVARCHAR(20),
+    Direccion NVARCHAR(100),
+    TipoLicencia NVARCHAR(5) NOT NULL CHECK (TipoLicencia IN ('C', 'D')),
+    Estado NVARCHAR(20) NOT NULL CHECK (Estado IN ('Activo', 'Inactivo'))
+--	ALTER TABLE Choferes ADD FechaNacimiento DATE NULL;
+);
+select * from Choferes
+
+--Autobuses
+
+create table Autobuses (
+    IdAutobus INT IDENTITY(1,1) PRIMARY KEY,
+    NumeroPlaca NVARCHAR(20) NOT NULL UNIQUE,
+    Color NVARCHAR(20),
+    Marca NVARCHAR(50),
+    Modelo NVARCHAR(50),
+    Anio INT CHECK (Anio >= 1980 AND Anio <= YEAR(GETDATE())),
+    Capacidad INT NOT NULL CHECK (Capacidad > 0),
+    Estado NVARCHAR(30) NOT NULL CHECK (Estado IN ('Disponible','En mantenimiento','Fuera de servicio'))
+);
+
+
+--Rutas
+
+create table Rutas (
+    IdRuta INT IDENTITY(1,1) PRIMARY KEY,
+    NombreRuta NVARCHAR(100) NOT NULL,
+    Origen NVARCHAR(100) NOT NULL,
+    Destino NVARCHAR(100) NOT NULL,
+    DuracionEstimada NVARCHAR(20),
+    Estado NVARCHAR(20) NOT NULL CHECK (Estado IN ('Activa','Inactiva'))
+);
+
+EXEC sp_InsertarRuta
+    @NombreRuta = 'Ruta SDQ-Santiago',
+    @Origen = 'Santo Domingo (Terminal Caribe Tours, 27 de Febrero)',
+    @Destino = 'Santiago (Terminal Monumental)',
+    @DuracionEstimada = '2 horas 30 minutos',
+    @Estado = 'Activa';
+
+
+
+--Asignaciones
+
+create table Asignaciones (
+    IdAsignacion INT IDENTITY(1,1) PRIMARY KEY,
+    IdChofer INT NOT NULL,
+    IdAutobus INT NOT NULL,
+    IdRuta INT NOT NULL,
+    FechaAsignacion DATE NOT NULL,
+    HoraSalida TIME NOT NULL,
+    Estado NVARCHAR(20) NOT NULL CHECK (Estado IN ('Activa','Finalizada','Cancelada')),
+
+    CONSTRAINT FK_Asignacion_Chofer FOREIGN KEY (IdChofer) REFERENCES Choferes(IdChofer),
+    CONSTRAINT FK_Asignacion_Autobus FOREIGN KEY (IdAutobus) REFERENCES Autobuses(IdAutobus),
+    CONSTRAINT FK_Asignacion_Ruta FOREIGN KEY (IdRuta) REFERENCES Rutas(IdRuta)
+);
+
+
+--hacemos el user admi
+insert into Usuarios (Nombre, Apellido, Usuario, Contrasena, Rol, Estado)
+values ('Katerin', 'Cordero', 'AdmiK', 'katt5003', 'Admin', 'Activo'); 
+
+--check
+SELECT Usuario FROM Usuarios;
+
+--Procedimiento almacenados
+--chofer
+-- Insertar Chofer
+IF OBJECT_ID('sp_InsertarChofer', 'P') IS NOT NULL
+    DROP PROCEDURE sp_InsertarChofer;
+GO
+CREATE PROCEDURE sp_InsertarChofer
+    @Nombre NVARCHAR(50),
+    @Apellido NVARCHAR(50),
+    @Cedula NVARCHAR(20),
+    @Telefono NVARCHAR(20),
+    @Direccion NVARCHAR(100),
+    @TipoLicencia NVARCHAR(10),
+    @Estado NVARCHAR(20)
+AS
+BEGIN
+    INSERT INTO Choferes (Nombre, Apellido, Cedula, Telefono, Direccion, TipoLicencia, Estado)
+    VALUES (@Nombre, @Apellido, @Cedula, @Telefono, @Direccion, @TipoLicencia, @Estado);
+END
+GO
+
+-- Listar Choferes
+IF OBJECT_ID('sp_ListarChoferes', 'P') IS NOT NULL
+    DROP PROCEDURE sp_ListarChoferes;
+GO
+CREATE PROCEDURE sp_ListarChoferes
+AS
+BEGIN
+    SELECT * FROM Choferes;
+END
+GO
+
+-- Editar Chofer
+IF OBJECT_ID('sp_EditarChofer', 'P') IS NOT NULL
+    DROP PROCEDURE sp_EditarChofer;
+GO
+CREATE PROCEDURE sp_EditarChofer
+    @IdChofer INT,
+    @Nombre NVARCHAR(50),
+    @Apellido NVARCHAR(50),
+    @Cedula NVARCHAR(20),
+    @Telefono NVARCHAR(20),
+    @Direccion NVARCHAR(100),
+    @TipoLicencia NVARCHAR(10),
+    @Estado NVARCHAR(20)
+AS
+BEGIN
+    UPDATE Choferes
+    SET Nombre = @Nombre,
+        Apellido = @Apellido,
+        Cedula = @Cedula,
+        Telefono = @Telefono,
+        Direccion = @Direccion,
+        TipoLicencia = @TipoLicencia,
+        Estado = @Estado
+    WHERE IdChofer = @IdChofer;
+END
+GO
+
+-- Eliminar Chofer
+IF OBJECT_ID('sp_EliminarChofer', 'P') IS NOT NULL
+    DROP PROCEDURE sp_EliminarChofer;
+GO
+CREATE PROCEDURE sp_EliminarChofer
+    @IdChofer INT
+AS
+BEGIN
+    DELETE FROM Choferes WHERE IdChofer = @IdChofer;
+END
+GO
+
+
+--A ver si funciona
+EXEC sp_InsertarChofer 
+    @Nombre = 'Juan',
+    @Apellido = 'Pérez',
+    @Cedula = '001-1234567-8',
+    @Telefono = '809-555-1234',
+    @Direccion = 'Santo Domingo',
+    @TipoLicencia = 'D',
+    @Estado = 'Activo';
+
+	EXEC sp_ListarChoferes;
+
+	EXEC sp_EditarChofer
+    @IdChofer = 1,
+    @Nombre = 'Juan',
+    @Apellido = 'Pérez',
+    @Cedula = '001-1234567-8',
+    @Telefono = '809-999-8888',
+    @Direccion = 'Santo Domingo',
+    @TipoLicencia = 'C',
+    @Estado = 'Inactivo';
+
+	--Lo mismo pero con AUTOBUSES
+
+	CREATE OR ALTER PROCEDURE sp_InsertarAutobus
+    @Marca NVARCHAR(50),
+    @Modelo NVARCHAR(50),
+    @NumeroPlaca NVARCHAR(20),
+    @Color NVARCHAR(30),
+    @Anio INT,
+    @Capacidad INT,
+    @Estado NVARCHAR(20)
+AS
+BEGIN
+    INSERT INTO Autobuses (Marca, Modelo, NumeroPlaca, Color, Anio, Capacidad, Estado)
+    VALUES (@Marca, @Modelo, @NumeroPlaca, @Color, @Anio, @Capacidad, @Estado);
+END;
+go
+
+CREATE OR ALTER PROCEDURE sp_ListarAutobuses
+AS
+BEGIN
+    SELECT * FROM Autobuses;
+END;
+go
+
+CREATE OR ALTER PROCEDURE sp_EditarAutobus
+    @IdAutobus INT,
+    @Marca NVARCHAR(50),
+    @Modelo NVARCHAR(50),
+    @NumeroPlaca NVARCHAR(20),
+    @Color NVARCHAR(30),
+    @Anio INT,
+    @Capacidad INT,
+    @Estado NVARCHAR(20)
+AS
+BEGIN
+    UPDATE Autobuses
+    SET Marca = @Marca,
+        Modelo = @Modelo,
+        NumeroPlaca = @NumeroPlaca,
+        Color = @Color,
+        Anio = @Anio,
+        Capacidad = @Capacidad,
+        Estado = @Estado
+    WHERE IdAutobus = @IdAutobus;
+END;
+go
+
+CREATE OR ALTER PROCEDURE sp_EliminarAutobus
+    @IdAutobus INT
+AS
+BEGIN
+    DELETE FROM Autobuses
+    WHERE IdAutobus = @IdAutobus;
+END;
+
+-------------------------------------------------------------------------------
+--Ruta
+
+CREATE OR ALTER PROCEDURE sp_InsertarRuta
+    @NombreRuta NVARCHAR(100),
+    @Origen NVARCHAR(100),
+    @Destino NVARCHAR(100),
+    @DuracionEstimada NVARCHAR(50),
+    @Estado NVARCHAR(20)
+AS
+BEGIN
+    INSERT INTO Rutas (NombreRuta, Origen, Destino, DuracionEstimada, Estado)
+    VALUES (@NombreRuta, @Origen, @Destino, @DuracionEstimada, @Estado);
+END;
+
+go
+
+CREATE OR ALTER PROCEDURE sp_ListarRutas
+AS
+BEGIN
+    SELECT * FROM Rutas;
+END;
+go
+
+CREATE OR ALTER PROCEDURE sp_ListarRutas
+AS
+BEGIN
+    SELECT * FROM Rutas;
+END;
+go
+
+CREATE OR ALTER PROCEDURE sp_EditarRuta
+    @IdRuta INT,
+    @NombreRuta NVARCHAR(100),
+    @Origen NVARCHAR(100),
+    @Destino NVARCHAR(100),
+    @DuracionEstimada NVARCHAR(50),
+    @Estado NVARCHAR(20)
+AS
+BEGIN
+    UPDATE Rutas
+    SET NombreRuta = @NombreRuta,
+        Origen = @Origen,
+        Destino = @Destino,
+        DuracionEstimada = @DuracionEstimada,
+        Estado = @Estado
+    WHERE IdRuta = @IdRuta;
+END;
+go
+
+CREATE OR ALTER PROCEDURE sp_EliminarRuta
+    @IdRuta INT
+AS
+BEGIN
+    DELETE FROM Rutas
+    WHERE IdRuta = @IdRuta;
+END;
+go
+
+--------------------------------------------------------------------------------
+--asignaciones
+--
+
+CREATE OR ALTER PROCEDURE sp_InsertarAsignacion
+    @IdChofer INT,
+    @IdAutobus INT,
+    @IdRuta INT,
+    @FechaAsignacion DATE,
+    @HoraSalida TIME,
+    @Estado NVARCHAR(20)
+AS
+BEGIN
+    INSERT INTO Asignaciones (IdChofer, IdAutobus, IdRuta, FechaAsignacion, HoraSalida, Estado)
+    VALUES (@IdChofer, @IdAutobus, @IdRuta, @FechaAsignacion, @HoraSalida, @Estado);
+END;
+go
+
+CREATE OR ALTER PROCEDURE sp_ListarAsignaciones
+AS
+BEGIN
+    SELECT 
+        A.IdAsignacion,
+        C.Nombre + ' ' + C.Apellido AS Chofer,
+        B.Marca + ' ' + B.Modelo AS Autobus,
+        R.NombreRuta AS Ruta,
+        A.FechaAsignacion,
+        A.HoraSalida,
+        A.Estado
+    FROM Asignaciones A
+    INNER JOIN Choferes C ON A.IdChofer = C.IdChofer
+    INNER JOIN Autobuses B ON A.IdAutobus = B.IdAutobus
+    INNER JOIN Rutas R ON A.IdRuta = R.IdRuta;
+END;
+go
+
+CREATE OR ALTER PROCEDURE sp_EditarAsignacion
+    @IdAsignacion INT,
+    @IdChofer INT,
+    @IdAutobus INT,
+    @IdRuta INT,
+    @FechaAsignacion DATE,
+    @HoraSalida TIME,
+    @Estado NVARCHAR(20)
+AS
+BEGIN
+    UPDATE Asignaciones
+    SET IdChofer = @IdChofer,
+        IdAutobus = @IdAutobus,
+        IdRuta = @IdRuta,
+        FechaAsignacion = @FechaAsignacion,
+        HoraSalida = @HoraSalida,
+        Estado = @Estado
+    WHERE IdAsignacion = @IdAsignacion;
+END;
+go
+
+CREATE OR ALTER PROCEDURE sp_EliminarAsignacion
+    @IdAsignacion INT
+AS
+BEGIN
+    DELETE FROM Asignaciones
+    WHERE IdAsignacion = @IdAsignacion;
+END;
+go
+
+-------------------------------------------------------------------------------------
+--usuarios
+-------------------------
+CREATE OR ALTER PROCEDURE sp_InsertarUsuario
+    @Nombre NVARCHAR(50),
+    @Apellido NVARCHAR(50),
+    @Usuario NVARCHAR(50),
+    @Contrasena NVARCHAR(255),
+    @Rol NVARCHAR(20),
+    @Estado NVARCHAR(20)
+AS
+BEGIN
+    INSERT INTO Usuarios (Nombre, Apellido, Usuario, Contrasena, Rol, Estado)
+    VALUES (@Nombre, @Apellido, @Usuario, @Contrasena, @Rol, @Estado);
+END;
+
+CREATE OR ALTER PROCEDURE sp_ListarUsuarios
+AS
+BEGIN
+    SELECT IdUsuario, Nombre, Apellido, Usuario, Rol, Estado
+    FROM Usuarios;
+END;
+
+CREATE OR ALTER PROCEDURE sp_EditarUsuario
+    @IdUsuario INT,
+    @Nombre NVARCHAR(50),
+    @Apellido NVARCHAR(50),
+    @Usuario NVARCHAR(50),
+    @Contrasena NVARCHAR(255),
+    @Rol NVARCHAR(20),
+    @Estado NVARCHAR(20)
+AS
+BEGIN
+    UPDATE Usuarios
+    SET Nombre = @Nombre,
+        Apellido = @Apellido,
+        Usuario = @Usuario,
+        Contrasena = @Contrasena,
+        Rol = @Rol,
+        Estado = @Estado
+    WHERE IdUsuario = @IdUsuario;
+END;
+
+CREATE OR ALTER PROCEDURE sp_EliminarUsuario
+    @IdUsuario INT
+AS
+BEGIN
+    DELETE FROM Usuarios
+    WHERE IdUsuario = @IdUsuario;
+END;
+
+
+--login para autenticacion
+CREATE OR ALTER PROCEDURE sp_LoginUsuario
+    @Usuario NVARCHAR(50),
+    @Contrasena NVARCHAR(255)
+AS
+BEGIN
+    SELECT IdUsuario, Nombre, Apellido, Rol, Estado
+    FROM Usuarios
+    WHERE Usuario = @Usuario AND Contrasena = @Contrasena;
+END;
+
+
