@@ -6,9 +6,9 @@ using System;
 
 namespace GestorAutobuses.Tests
 {
-    // ================================================================
+
     // PRUEBA 1: VALIDACIÓN DE LOGIN - Usuario Negocio
-    // ================================================================
+
     public class UsuarioNegocioTests
     {
         [Fact]
@@ -45,9 +45,9 @@ namespace GestorAutobuses.Tests
         }
     }
 
-    // ================================================================
+
     // PRUEBAS 2-4: VALIDACIÓN DE CHOFERES - Chofer Negocio
-    // ================================================================
+
     public class ChoferNegocioTests
     {
         [Fact]
@@ -108,9 +108,7 @@ namespace GestorAutobuses.Tests
         }
     }
 
-    // ================================================================
     // PRUEBAS 5-7: VALIDACIÓN DE AUTOBUSES - Autobus Negocio
-    // ================================================================
     public class AutobusNegocioTests
     {
         [Fact]
@@ -180,10 +178,7 @@ namespace GestorAutobuses.Tests
             Assert.Contains("ID de autobús inválido", exception.Message);
         }
     }
-
-    // ================================================================
     // PRUEBAS 8-9: VALIDACIÓN DE RUTAS - Ruta Negocio
-    // ================================================================
     public class RutaNegocioTests
     {
         [Fact]
@@ -211,9 +206,7 @@ namespace GestorAutobuses.Tests
         }
     }
 
-    // ================================================================
     // PRUEBA 10: VALIDACIÓN DE ASIGNACIONES - Asignacion Negocio
-    // ================================================================
     public class AsignacionNegocioTests
     {
         [Fact]
